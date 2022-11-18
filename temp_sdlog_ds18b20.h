@@ -1,4 +1,4 @@
-/*! @file temp_ds18b20_sdlog.h
+/*! @file temp_sdlog_ds18b20.h
  *! @author Tobias Rolke (github.com/chillerwal/)
  *! @version 1.0
  *! @date 2022-11-18 
@@ -24,7 +24,7 @@
 #include <SPI.h> // SD by Arduino
 #include <SD.h> // SD by Arduino
 #include "logtime.h"
-#include "temp_ds18b20_settings.h"
+#include "temp_settings_ds18b20.h"
 
 namespace temp_log
 {

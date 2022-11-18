@@ -1,4 +1,4 @@
-/*! @file temp_ds18b20_sdlog.cpp
+/*! @file temp_sdlog_ds18b20.cpp
  *! @author Tobias Rolke (github.com/chillerwal/)
  *! @version 1.0
  *! @date 2022-11-18 
@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "temp_ds18b20_sdlog.h"
+#include "temp_sdlog_ds18b20.h"
 
 namespace temp_log
 {    

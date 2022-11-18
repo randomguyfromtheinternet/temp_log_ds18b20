@@ -1,4 +1,4 @@
-/*! @file temp_ds18b20_log.ino
+/*! @file temp_log_ds18b20.ino
  *! @author Tobias Rolke (github.com/chillerwal/)
  *! @version 0.1
  *! @date 2022-11-18 
@@ -17,7 +17,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "temp_ds18b20_settings.h" // <-- PIN setup etc here 
+#include "temp_settings_ds18b20.h" // <-- PIN setup etc here 
 
 #include <RTClib.h> // RTCLib by Adafruit
 #include <dhtnew.h> // DHTNEW by Rob Tilaart
@@ -25,7 +25,7 @@
 #include <DallasTemperature.h> // DallasTemperature by Miles Burton
 
 
-#include "temp_ds18b20_sdlog.h" // using: SD by Arduino
+#include "temp_sdlog_ds18b20.h" // using: SD by Arduino
 #include "logtime.h" // using: RTCLib by Adafruit
 
 #include "min_time_hm.h"
