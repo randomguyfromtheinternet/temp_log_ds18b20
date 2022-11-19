@@ -197,10 +197,12 @@ void setup_temp_sensors()
 {
   temp_sensors.begin();
   num_connected_sensors = (unsigned char) temp_sensors.getDeviceCount();
+  Serial.println((String) num_connected_sensors + " s"); // DEBUG
   for(unsigned char i = 0; i < temp_log::_NUM_SENSORS_MAX; ++i)
   {
     if(i <= num_connected_sensors)
       ow.search(temp_sensor_address[i]);
+    /*
     else
     {
       for(unsigned char j{0}; j < 8; ++j)
@@ -208,6 +210,7 @@ void setup_temp_sensors()
         temp_sensor_address[i][j] = 0;
       }
     }
+    */
   }
 
   if(temp_log::_SD_LOGGING)
@@ -262,11 +265,31 @@ void set_onboard_led(bool state)
 void update_display()
 {
   String line{""};
-  line.reserve(17);
+  line.reserve(21);
 
   line = logtime.iso_now();
   disp.setCursor(0, 0);
   disp.print(line);
+
+  if(logtime.now().second() > 50)
+  {
+    for(unsigned char i{0}; (i < 3) && (i < temp_log::_NUM_SENSORS_MAX); ++i)
+    {
+      line = temp_log::sensor_address_to_string(temp_sensor_address[i]);
+      disp.setCursor(0, (i + 1));
+      disp.print(line);
+    }
+  }
+  else
+  {
+    for(unsigned char i{0}; (i < 3) && (i < temp_log::_NUM_SENSORS_MAX); ++i)
+    {
+      line = "T" + (String)(i + 1) + ": " + (String)current_temperature[i] + "°C    ";
+      disp.setCursor(0, (i + 1));
+      disp.print(line);
+    }
+  }
+
 }
 
 
@@ -286,7 +309,7 @@ void loop() {
 
     case LoopState::idle:
     {
-      delay(5000);
+      delay(500);
       update_display();
       state = LoopState::check_measure;
 
@@ -313,14 +336,14 @@ void loop() {
     case LoopState::measuring:
     {
         // Poll all sensors for current temperature
+        Serial.println((String) num_connected_sensors + " s"); // DEBUG
+
+        temp_sensors.requestTemperatures();
         for(unsigned char i{0}; i < num_connected_sensors; ++i)
         {
             current_temperature[i] = temp_sensors.getTempC(temp_sensor_address[i]);
         }
     
-        /* TODO: Replace the code from the one DHT11 sensor
-         * with the code for the multiple DS18B20 sensors
-         */
       if(temp_log::_SD_LOGGING)
       {
         // log data to SD Card

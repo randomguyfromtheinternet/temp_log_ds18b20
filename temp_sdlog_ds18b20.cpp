@@ -140,6 +140,17 @@ namespace temp_log
 
         return;
     }
+
+    String sensor_address_to_string(unsigned char address[8])
+    {
+        String out("");
+        out.reserve(17);
+        for(unsigned char i{0}; i < 8; ++i)
+            {
+                out += byte_to_hex(address[i]);
+            }
+        return out;
+    }
     
     String byte_to_hex(const unsigned char& input)
     {

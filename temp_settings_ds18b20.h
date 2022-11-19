@@ -33,7 +33,7 @@ namespace temp_log
 
     namespace pin
     {
-        constexpr uint8_t _TEMP_SENSOR{5};
+        constexpr uint8_t _TEMP_SENSOR{2};
         constexpr unsigned char _LED_ONBOARD{13};
         constexpr unsigned char _SD{10};
     }

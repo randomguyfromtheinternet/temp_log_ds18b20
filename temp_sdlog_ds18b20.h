@@ -37,6 +37,7 @@ namespace temp_log
     bool deleteFile(const String& filename);
     bool appendToFile(const String& text, const String& filename);
     String readFile(const String& filename);
+    String sensor_address_to_string(unsigned char address[8]);
     String byte_to_hex(const unsigned char& input);
     char subbyte_to_hex(const unsigned char& slice);
 
