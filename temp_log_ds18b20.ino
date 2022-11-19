@@ -1,7 +1,7 @@
 /*! @file temp_log_ds18b20.ino
  *! @author Tobias Rolke (github.com/chillerwal/)
- *! @version 0.1
- *! @date 2022-11-18 
+ *! @version 1.0
+ *! @date 2022-11-19 
  *! @copyright GPLv3
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -134,7 +134,7 @@ void setup()
   disp.backlight();
   disp.clear();
   disp.setCursor(0,0);
-  disp.createChar(1, temp_log::lcd_char::celsius); // replace '`' with ° symbol
+  disp.createChar(1, temp_log::lcd_char::_CELSIUS); // replace '`' with ° symbol
 
   // set current time
   DateTime now{logtime.now()};
@@ -294,7 +294,7 @@ void update_display()
       line = "T" + (String)(i + 1) + ": " + (String)current_temperature[i] + (char)1 + "C"; 
       disp.setCursor(0, (i + 1));
       disp.print(line);
-      
+
       // clear the rest of the line
       for(unsigned char i{line.length()}; i < temp_log::_LCD_ROWS; ++i)
       {

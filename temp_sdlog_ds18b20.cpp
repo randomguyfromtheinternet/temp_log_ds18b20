@@ -1,7 +1,7 @@
 /*! @file temp_sdlog_ds18b20.cpp
  *! @author Tobias Rolke (github.com/chillerwal/)
- *! @version 1.0
- *! @date 2022-11-18 
+ *! @version 1.1
+ *! @date 2022-11-19 
  *! @copyright GPLv3
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

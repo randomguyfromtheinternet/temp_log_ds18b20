@@ -1,6 +1,6 @@
 /*! @file temp_settings_ds18b20.h
  *! @author Tobias Rolke (github.com/chillerwal/)
- *! @version 1.0
+ *! @version 1.1
  *! @date 2022-11-19 
  *! @brief Contains the settings of the Arduino sketch
  *! @copyright GPLv3
@@ -47,7 +47,7 @@ namespace temp_log
 
     namespace lcd_char
     {
-        constexpr unsigned char celsius[8] = {0b00100, 0b01010, 0b00100, 0b00000, 0b00000};
+        constexpr unsigned char _CELSIUS[8] = {0b00100, 0b01010, 0b00100, 0b00000, 0b00000};
     }
 }
 
