@@ -23,6 +23,8 @@
 #include <dhtnew.h> // DHTNEW by Rob Tilaart
 #include <OneWire.h> // OneWire by Jim Studt
 #include <DallasTemperature.h> // DallasTemperature by Miles Burton
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
 
 #include "temp_sdlog_ds18b20.h" // using: SD by Arduino
@@ -53,6 +55,9 @@ OneWire ow(temp_log::pin::_TEMP_SENSOR);
 DallasTemperature temp_sensors(&ow);
 unsigned char num_connected_sensors{0};
 unsigned char temp_sensor_address[temp_log::_NUM_SENSORS_MAX][8]{0};
+
+// Liquid crystal display 16x4
+LiquidCrystal_I2C disp(temp_log::i2c::_LCD, 16, temp_log::_LCD_LINES);
 
 // Measure interval control
 min_time::TimeHM measuring_time{00,00}; // will be overwritten by current time + 1 minute in setup
@@ -85,6 +90,7 @@ void fill_loop_state_map();
 bool check_measure_time();
 void set_next_measure_time();
 void set_onboard_led(bool state);
+void update_display();
 
 /// @fn setup
 /// @brief setup routine before running loop function
@@ -122,6 +128,12 @@ void setup()
 
   // set up temperature sensor
   setup_temp_sensors();
+
+  // set up LCD
+  disp.begin();
+  disp.backlight();
+  disp.clear();
+  disp.setCursor(0,0);
 
   // set current time
   DateTime now{logtime.now()};
@@ -246,6 +258,17 @@ void set_onboard_led(bool state)
   return;
 }
 
+//! @brief updates LCD
+void update_display()
+{
+  String line{""};
+  line.reserve(17);
+
+  line = logtime.iso_now();
+  disp.setCursor(0, 0);
+  disp.print(line);
+}
+
 
 ///
 /// @fn loop
@@ -264,6 +287,7 @@ void loop() {
     case LoopState::idle:
     {
       delay(5000);
+      update_display();
       state = LoopState::check_measure;
 
       break;

@@ -29,12 +29,19 @@ namespace temp_log
     constexpr bool _SERIAL_LOGGING{true};
     constexpr bool _SD_LOGGING{true};
     constexpr unsigned int _NUM_SENSORS_MAX{3u};
+    constexpr unsigned char _LCD_LINES{4};
 
     namespace pin
     {
         constexpr uint8_t _TEMP_SENSOR{5};
         constexpr unsigned char _LED_ONBOARD{13};
         constexpr unsigned char _SD{10};
+    }
+
+    // I2C adresses
+    namespace i2c
+    {
+        constexpr unsigned char _LCD{0x27};
     }
 }
 
