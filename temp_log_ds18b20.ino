@@ -134,6 +134,7 @@ void setup()
   disp.backlight();
   disp.clear();
   disp.setCursor(0,0);
+  disp.createChar(1, temp_log::lcd_char::celsius); // replace '`' with ° symbol
 
   // set current time
   DateTime now{logtime.now()};
@@ -265,7 +266,7 @@ void set_onboard_led(bool state)
 void update_display()
 {
   String line{""};
-  line.reserve(21);
+  line.reserve(temp_log::_LCD_ROWS + 1);
 
   line = logtime.iso_now();
   disp.setCursor(0, 0);
@@ -275,18 +276,30 @@ void update_display()
   {
     for(unsigned char i{0}; (i < 3) && (i < temp_log::_NUM_SENSORS_MAX); ++i)
     {
-      line = temp_log::sensor_address_to_string(temp_sensor_address[i]);
+      line = "S" + (String)(i + 1) + ": " + temp_log::sensor_address_to_string(temp_sensor_address[i]);
       disp.setCursor(0, (i + 1));
       disp.print(line);
+
+      // clear the rest of the line
+      for(unsigned char i{line.length()}; i < temp_log::_LCD_ROWS; ++i)
+      {
+        disp.print(' ');
+      }
     }
   }
   else
   {
     for(unsigned char i{0}; (i < 3) && (i < temp_log::_NUM_SENSORS_MAX); ++i)
     {
-      line = "T" + (String)(i + 1) + ": " + (String)current_temperature[i] + "°C    ";
+      line = "T" + (String)(i + 1) + ": " + (String)current_temperature[i] + (char)1 + "C"; 
       disp.setCursor(0, (i + 1));
       disp.print(line);
+      
+      // clear the rest of the line
+      for(unsigned char i{line.length()}; i < temp_log::_LCD_ROWS; ++i)
+      {
+        disp.print(' ');
+      }
     }
   }
 

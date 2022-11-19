@@ -29,6 +29,7 @@ namespace temp_log
     constexpr bool _SERIAL_LOGGING{true};
     constexpr bool _SD_LOGGING{true};
     constexpr unsigned int _NUM_SENSORS_MAX{3u};
+    constexpr unsigned char _LCD_ROWS{20};
     constexpr unsigned char _LCD_LINES{4};
 
     namespace pin
@@ -42,6 +43,11 @@ namespace temp_log
     namespace i2c
     {
         constexpr unsigned char _LCD{0x27};
+    }
+
+    namespace lcd_char
+    {
+        constexpr unsigned char celsius[8] = {0b00100, 0b01010, 0b00100, 0b00000, 0b00000};
     }
 }
 

@@ -167,7 +167,7 @@ namespace temp_log
         if (slice < 10)
             return (slice + '0');
         else if (slice < 16)
-            return((slice - 10) + 'a');
+            return((slice - 10) + 'A');
         else
             return '#';
     }
