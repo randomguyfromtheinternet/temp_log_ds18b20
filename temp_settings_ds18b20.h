@@ -1,5 +1,5 @@
 /*! @file temp_settings_ds18b20.h
- *! @author Tobias Rolke (github.com/chillerwal/)
+ *! @author Tobias Rolke (github.com/randomguyfromtheinternet/)
  *! @version 1.1
  *! @date 2022-11-19 
  *! @brief Contains the settings of the Arduino sketch

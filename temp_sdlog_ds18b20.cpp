@@ -1,5 +1,5 @@
 /*! @file temp_sdlog_ds18b20.cpp
- *! @author Tobias Rolke (github.com/chillerwal/)
+ *! @author Tobias Rolke (github.com/randomguyfromtheinternet/)
  *! @version 1.1
  *! @date 2022-11-19 
  *! @copyright GPLv3

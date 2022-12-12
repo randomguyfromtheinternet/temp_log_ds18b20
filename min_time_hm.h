@@ -1,5 +1,5 @@
 /*! @file min_time_hm.h
- *! @author Tobias Rolke (github.com/chillerwal/)
+ *! @author Tobias Rolke (github.com/randomguyfromtheinternet/)
  *! @version 1.0
  *! @date 2022-11-18
  *! @brief Only stores hours and minutes in a small memory footprint.

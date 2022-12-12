@@ -1,5 +1,5 @@
 /*! @file logtime.h
- *! @author Tobias Rolke (github.com/chillerwal/)
+ *! @author Tobias Rolke (github.com/randomguyfromtheinternet/)
  *! @version 1.1
  *! @date 2022-11-18 
  *! @copyright GPLv3

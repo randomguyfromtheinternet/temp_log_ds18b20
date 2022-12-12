@@ -1,5 +1,5 @@
 /*! @file temp_log_ds18b20.ino
- *! @author Tobias Rolke (github.com/chillerwal/)
+ *! @author Tobias Rolke (github.com/randomguyfromtheinternet/)
  *! @version 1.0
  *! @date 2022-11-19 
  *! @copyright GPLv3

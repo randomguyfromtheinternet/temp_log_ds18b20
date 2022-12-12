@@ -1,5 +1,5 @@
 /*! @file min_time_conversion.cpp
- *! @author Tobias Rolke (github.com/chillerwal/)
+ *! @author Tobias Rolke (github.com/randomguyfromtheinternet/)
  *! @version 1.0
  *! @date 2022-11-18
  *! @copyright GPLv3
