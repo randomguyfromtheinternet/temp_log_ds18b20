@@ -1,7 +1,7 @@
 /*! @file temp_sdlog_ds18b20.h
  *! @author Tobias Rolke (github.com/chillerwal/)
- *! @version 1.0
- *! @date 2022-11-18 
+ *! @version 1.1
+ *! @date 2022-11-19 
  *! @copyright GPLv3
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,9 +37,9 @@ namespace temp_log
     bool deleteFile(const String& filename);
     bool appendToFile(const String& text, const String& filename);
     String readFile(const String& filename);
+    String sensor_address_to_string(unsigned char address[8]);
     String byte_to_hex(const unsigned char& input);
     char subbyte_to_hex(const unsigned char& slice);
-
 
     void log_boot(const sdlog::LogTime& lt);
     void log_temperature(const sdlog::LogTime& lt, float current_temperature[temp_log::_NUM_SENSORS_MAX]);

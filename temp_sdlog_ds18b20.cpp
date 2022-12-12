@@ -1,7 +1,7 @@
 /*! @file temp_sdlog_ds18b20.cpp
  *! @author Tobias Rolke (github.com/chillerwal/)
- *! @version 1.0
- *! @date 2022-11-18 
+ *! @version 1.1
+ *! @date 2022-11-19 
  *! @copyright GPLv3
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -140,6 +140,17 @@ namespace temp_log
 
         return;
     }
+
+    String sensor_address_to_string(unsigned char address[8])
+    {
+        String out("");
+        out.reserve(17);
+        for(unsigned char i{0}; i < 8; ++i)
+            {
+                out += byte_to_hex(address[i]);
+            }
+        return out;
+    }
     
     String byte_to_hex(const unsigned char& input)
     {
@@ -156,7 +167,7 @@ namespace temp_log
         if (slice < 10)
             return (slice + '0');
         else if (slice < 16)
-            return((slice - 10) + 'a');
+            return((slice - 10) + 'A');
         else
             return '#';
     }

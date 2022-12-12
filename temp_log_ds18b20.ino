@@ -1,7 +1,7 @@
 /*! @file temp_log_ds18b20.ino
  *! @author Tobias Rolke (github.com/chillerwal/)
- *! @version 0.1
- *! @date 2022-11-18 
+ *! @version 1.0
+ *! @date 2022-11-19 
  *! @copyright GPLv3
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -23,6 +23,8 @@
 #include <dhtnew.h> // DHTNEW by Rob Tilaart
 #include <OneWire.h> // OneWire by Jim Studt
 #include <DallasTemperature.h> // DallasTemperature by Miles Burton
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
 
 #include "temp_sdlog_ds18b20.h" // using: SD by Arduino
@@ -53,6 +55,9 @@ OneWire ow(temp_log::pin::_TEMP_SENSOR);
 DallasTemperature temp_sensors(&ow);
 unsigned char num_connected_sensors{0};
 unsigned char temp_sensor_address[temp_log::_NUM_SENSORS_MAX][8]{0};
+
+// Liquid crystal display 16x4
+LiquidCrystal_I2C disp(temp_log::i2c::_LCD, 16, temp_log::_LCD_LINES);
 
 // Measure interval control
 min_time::TimeHM measuring_time{00,00}; // will be overwritten by current time + 1 minute in setup
@@ -85,6 +90,7 @@ void fill_loop_state_map();
 bool check_measure_time();
 void set_next_measure_time();
 void set_onboard_led(bool state);
+void update_display();
 
 /// @fn setup
 /// @brief setup routine before running loop function
@@ -122,6 +128,13 @@ void setup()
 
   // set up temperature sensor
   setup_temp_sensors();
+
+  // set up LCD
+  disp.begin();
+  disp.backlight();
+  disp.clear();
+  disp.setCursor(0,0);
+  disp.createChar(1, temp_log::lcd_char::_CELSIUS); // replace '`' with ° symbol
 
   // set current time
   DateTime now{logtime.now()};
@@ -185,10 +198,12 @@ void setup_temp_sensors()
 {
   temp_sensors.begin();
   num_connected_sensors = (unsigned char) temp_sensors.getDeviceCount();
+  Serial.println((String) num_connected_sensors + " s"); // DEBUG
   for(unsigned char i = 0; i < temp_log::_NUM_SENSORS_MAX; ++i)
   {
     if(i <= num_connected_sensors)
       ow.search(temp_sensor_address[i]);
+    /*
     else
     {
       for(unsigned char j{0}; j < 8; ++j)
@@ -196,6 +211,7 @@ void setup_temp_sensors()
         temp_sensor_address[i][j] = 0;
       }
     }
+    */
   }
 
   if(temp_log::_SD_LOGGING)
@@ -246,6 +262,49 @@ void set_onboard_led(bool state)
   return;
 }
 
+//! @brief updates LCD
+void update_display()
+{
+  String line{""};
+  line.reserve(temp_log::_LCD_ROWS + 1);
+
+  line = logtime.iso_now();
+  disp.setCursor(0, 0);
+  disp.print(line);
+
+  if(logtime.now().second() > 50)
+  {
+    for(unsigned char i{0}; (i < 3) && (i < temp_log::_NUM_SENSORS_MAX); ++i)
+    {
+      line = "S" + (String)(i + 1) + ": " + temp_log::sensor_address_to_string(temp_sensor_address[i]);
+      disp.setCursor(0, (i + 1));
+      disp.print(line);
+
+      // clear the rest of the line
+      for(unsigned char i{line.length()}; i < temp_log::_LCD_ROWS; ++i)
+      {
+        disp.print(' ');
+      }
+    }
+  }
+  else
+  {
+    for(unsigned char i{0}; (i < 3) && (i < temp_log::_NUM_SENSORS_MAX); ++i)
+    {
+      line = "T" + (String)(i + 1) + ": " + (String)current_temperature[i] + (char)1 + "C"; 
+      disp.setCursor(0, (i + 1));
+      disp.print(line);
+
+      // clear the rest of the line
+      for(unsigned char i{line.length()}; i < temp_log::_LCD_ROWS; ++i)
+      {
+        disp.print(' ');
+      }
+    }
+  }
+
+}
+
 
 ///
 /// @fn loop
@@ -263,7 +322,8 @@ void loop() {
 
     case LoopState::idle:
     {
-      delay(5000);
+      delay(500);
+      update_display();
       state = LoopState::check_measure;
 
       break;
@@ -289,14 +349,14 @@ void loop() {
     case LoopState::measuring:
     {
         // Poll all sensors for current temperature
+        Serial.println((String) num_connected_sensors + " s"); // DEBUG
+
+        temp_sensors.requestTemperatures();
         for(unsigned char i{0}; i < num_connected_sensors; ++i)
         {
             current_temperature[i] = temp_sensors.getTempC(temp_sensor_address[i]);
         }
     
-        /* TODO: Replace the code from the one DHT11 sensor
-         * with the code for the multiple DS18B20 sensors
-         */
       if(temp_log::_SD_LOGGING)
       {
         // log data to SD Card
