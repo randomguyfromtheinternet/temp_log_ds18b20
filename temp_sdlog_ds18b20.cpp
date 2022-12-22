@@ -1,7 +1,7 @@
 /*! @file temp_sdlog_ds18b20.cpp
  *! @author Tobias Rolke (github.com/randomguyfromtheinternet/)
- *! @version 1.1
- *! @date 2022-11-19 
+ *! @version 1.2
+ *! @date 2022-12-22 
  *! @copyright GPLv3
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ namespace temp_log
 
     String readFile(const String& filename)
     {
-        String out = "";
+        String out{ "" };
 
         // check if file exists
         if(!SD.exists(filename))
@@ -78,7 +78,7 @@ namespace temp_log
 
     void log_boot(const sdlog::LogTime& lt)
     {
-        String out {""};
+        String out{ "" };
         
         // Generate Output for logging
         out += lt.iso_now(false, false);
@@ -92,7 +92,7 @@ namespace temp_log
 
     void log_temperature(const sdlog::LogTime& lt, float current_temperature[temp_log::_NUM_SENSORS_MAX])
     {
-        String out {""};
+        String out{ "" };
         out.reserve(temp_log::_NUM_SENSORS_MAX * 5 + 13);
         
         out += lt.iso_now(false, false);
@@ -115,7 +115,7 @@ namespace temp_log
 
     void log_sensors(const sdlog::LogTime& lt, unsigned char addresses[temp_log::_NUM_SENSORS_MAX][8])
     {
-        String out {""};
+        String out{ "" };
         out.reserve(temp_log::_NUM_SENSORS_MAX * 17 + 13);
         
         out += lt.iso_now(false, false);
@@ -143,7 +143,7 @@ namespace temp_log
 
     String sensor_address_to_string(unsigned char address[8])
     {
-        String out("");
+        String out{ "" };
         out.reserve(17);
         for(unsigned char i{0}; i < 8; ++i)
             {
